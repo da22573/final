@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net"
 	"net/rpc"
@@ -98,7 +97,6 @@ func MakeImmutableMatrix(matrix [][]uint8) func(y, x int) uint8 {
 
 func (s *Worker) WorkerProcess(req stubs.Request, res *stubs.Response) (err error) {
 
-	fmt.Println("I am at the other end")
 	newData := CalculateNextWorld(req, 0, req.Params.Width)
 	fmt.Println("In worker : ", req.StartY)
 	//printBoard(newData, req.EndY-req.StartY, req.Params.Width)
@@ -109,10 +107,9 @@ func (s *Worker) WorkerProcess(req stubs.Request, res *stubs.Response) (err erro
 }
 
 func main() {
-	pAddr := flag.String("port", "8031", "Port to listen on")
-	flag.Parse()
+	pAddr := "8031"
 	rpc.Register(&Worker{})
-	listener, _ := net.Listen("tcp", ":"+*pAddr)
+	listener, _ := net.Listen("tcp", ":"+pAddr)
 	defer listener.Close()
 	rpc.Accept(listener)
 }
