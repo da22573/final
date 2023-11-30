@@ -98,7 +98,7 @@ func MakeImmutableMatrix(matrix [][]uint8) func(y, x int) uint8 {
 
 func (s *Worker) WorkerProcess(req stubs.Request, res *stubs.Response) (err error) {
 
-	fmt.Println(req.EndY)
+	fmt.Println("I am at the other end")
 	newData := CalculateNextWorld(req, 0, req.Params.Width)
 	fmt.Println("In worker : ", req.StartY)
 	//printBoard(newData, req.EndY-req.StartY, req.Params.Width)
