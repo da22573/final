@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net"
 	"net/rpc"
@@ -42,7 +43,7 @@ func (s *GameOfLife) UnPauseGameProcess(req stubs.Request, res *stubs.Response) 
 }
 
 func (s *GameOfLife) ProcessAllTurns(req stubs.Request, res *stubs.Response) (err error) {
-
+	fmt.Println("I am on the other end")
 	turn = 1
 	threads := 4
 	world = req.World
@@ -114,9 +115,10 @@ func (s *GameOfLife) ProcessAllTurns(req stubs.Request, res *stubs.Response) (er
 
 }
 func main() {
-	pAddr := "8030"
+	pAddr := flag.String("port", "8030", "Port to listen on")
+	flag.Parse()
 	rpc.Register(&GameOfLife{})
-	listener, _ := net.Listen("tcp", ":"+pAddr)
+	listener, _ := net.Listen("tcp", ":"+*pAddr)
 	defer listener.Close()
 	rpc.Accept(listener)
 }
